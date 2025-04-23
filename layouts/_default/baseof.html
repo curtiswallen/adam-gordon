@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="{{ $.Site.Language.Lang }}">
+  
+  {{ partial "head" . }}
+
+  <header>
+    <div id="logo"><a href="/">Adam Gordon</a></div>
+  </header>
+  
+  <body>
+
+  <section id="content">{{ block "main" . }}{{ end }}</section>
+
+  </body>
+
+  {{ $modernizr := resources.Get "js/vendor/modernizr-3.11.2.min.js" }}
+  {{ $jquery := resources.Get "js/vendor/jquery-3.6.1.min.js" }}
+  {{ $plugins := resources.Get "js/plugins.js" }}
+  {{ $main := resources.Get "js/main.js" }}
+
+  {{ $fullscript := slice $modernizr $jquery $plugins $main | resources.Concat "js/vendor.js" | minify | fingerprint }}
+  <script src="{{ $fullscript.RelPermalink }}" integrity="{{ $fullscript.Data.Integrity }}"></script>
+
+</html>
